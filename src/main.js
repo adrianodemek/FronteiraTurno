@@ -2,7 +2,7 @@ import { createInitialState, territoryById, owned } from './game/state.js';
 import { canSelectSource, canTarget } from './game/map.js';
 import { resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
-import { render } from './ui/render.js';
+import { render } from './ui/render.js?v=0.2.1';
 
 let state=createInitialState();
 const refs={
