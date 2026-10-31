@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07141a" />
+  <title>Estratégia Territorial — V0.1</title>
+  <link rel="stylesheet" href="./styles/main.css" />
+</head>
+<body>
+  <main class="game-shell" id="game">
+    <header class="hud-top">
+      <section class="turn-card">
+        <span>TURNO</span>
+        <strong id="turnLabel">1/12</strong>
+      </section>
+      <section class="war-meter" aria-label="Controle territorial">
+        <div class="war-score-row">
+          <strong class="blue-score" id="blueScore">0%</strong>
+          <div class="war-bar"><i id="warBlue"></i><b></b></div>
+          <strong class="red-score" id="redScore">0%</strong>
+        </div>
+        <div class="orders-wrap"><span>ORDENS</span><div class="orders" id="orders"></div></div>
+      </section>
+      <button class="menu-button" type="button" aria-label="Menu">☰</button>
+    </header>
+    <section class="objective-strip">
+      <div><span>⚔</span><b id="ownedCount">0</b><small>territórios</small></div>
+      <div><span>★</span><b id="hqCount">1</b><small>QG</small></div>
+      <div><span>⬢</span><b id="neutralCount">0</b><small>neutros</small></div>
+    </section>
+    <section class="battlefield-panel"><div class="map-frame"><svg id="battleMap" viewBox="0 0 420 650" role="img" aria-label="Mapa estratégico"></svg><div class="map-controls" aria-hidden="true"><button type="button">+</button><button type="button">−</button></div></div></section>
+    <section class="action-panel" id="actionPanel">
+      <div class="action-copy"><strong id="actionTitle">Sua vez</strong><span id="actionText">Escolha um território azul com pelo menos 2 tropas.</span></div>
+      <div class="chance" id="chanceBox" hidden><small>CHANCE</small><strong id="chanceText">—</strong></div>
+      <button id="attackBtn" class="attack-button" type="button" hidden>ATACAR</button>
+    </section>
+    <section class="bottom-dock">
+      <div class="hand" aria-label="Cartas">
+        <button class="card card-reinforce" id="reinforceCard" type="button"><span class="cost">1</span><span class="art">✚</span><strong>Reforços</strong><small>+2 tropas</small></button>
+        <button class="card" type="button" disabled><span class="cost">2</span><span class="art">▰</span><strong>Blindados</strong><small>em breve</small></button>
+        <button class="card" type="button" disabled><span class="cost">2</span><span class="art">✦</span><strong>Artilharia</strong><small>em breve</small></button>
+      </div>
+      <button id="endTurnBtn" class="end-turn" type="button">Fim do turno</button>
+    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
