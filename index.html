@@ -4,14 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#07141a" />
-  <title>FronteiraTurno — V0.4</title>
-  <link rel="stylesheet" href="./styles/main.css?v=0.4" />
+  <title>FronteiraTurno — V0.5</title>
+  <link rel="stylesheet" href="./styles/main.css?v=0.5" />
 </head>
 <body>
   <main class="game-shell" id="game">
-    <header class="hud-top">
+    <section class="battlefield-panel">
+      <div class="map-frame" id="mapFrame">
+        <svg id="battleMap" viewBox="0 0 420 690" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa estratégico"></svg>
+        <div class="map-controls" aria-label="Controles do mapa">
+          <button id="zoomInBtn" type="button" aria-label="Aproximar mapa">+</button>
+          <output id="zoomLabel" aria-live="polite">100%</output>
+          <button id="zoomOutBtn" type="button" aria-label="Afastar mapa">−</button>
+        </div>
+        <div class="gesture-hint">2 dedos: mover / zoom</div>
+      </div>
+    </section>
+
+    <header class="hud-top" id="hudTop">
       <section class="turn-card">
-        <span>TURNO <em class="build-id">V0.4</em></span>
+        <span>TURNO <em class="build-id">V0.5</em></span>
         <strong id="turnLabel">1/12</strong>
       </section>
       <section class="war-meter" aria-label="Controle territorial">
@@ -25,22 +37,10 @@
       <button class="menu-button" type="button" aria-label="Menu">☰</button>
     </header>
 
-    <section class="objective-strip" aria-label="Resumo da batalha">
+    <section class="objective-strip" id="objectiveStrip" aria-label="Resumo da batalha">
       <div><span>⚔</span><b id="ownedCount">0</b><small>seus</small></div>
       <div><span>★</span><b id="hqCount">1</b><small>QG</small></div>
       <div><span>⬢</span><b id="neutralCount">0</b><small>neutros</small></div>
-    </section>
-
-    <section class="battlefield-panel">
-      <div class="map-frame" id="mapFrame">
-        <svg id="battleMap" viewBox="0 0 420 690" role="img" aria-label="Mapa estratégico"></svg>
-        <div class="map-controls" aria-label="Controles do mapa">
-          <button id="zoomInBtn" type="button" aria-label="Aproximar mapa">+</button>
-          <output id="zoomLabel" aria-live="polite">100%</output>
-          <button id="zoomOutBtn" type="button" aria-label="Afastar mapa">−</button>
-        </div>
-        <div class="gesture-hint">2 dedos: mover / zoom</div>
-      </div>
     </section>
 
     <section class="action-panel" id="actionPanel">
@@ -49,7 +49,7 @@
       <button id="attackBtn" class="attack-button" type="button" hidden>ATACAR</button>
     </section>
 
-    <section class="bottom-dock">
+    <section class="bottom-dock" id="bottomDock">
       <div class="hand" aria-label="Cartas">
         <button class="card card-reinforce" id="reinforceCard" type="button"><span class="cost">1</span><span class="art">✚</span><strong>Reforços</strong><small>+2 tropas</small></button>
         <button class="card" type="button" disabled><span class="cost">2</span><span class="art">▰</span><strong>Blindados</strong><small>em breve</small></button>
@@ -60,6 +60,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </main>
-  <script type="module" src="./src/main.js?v=0.4"></script>
+  <script type="module" src="./src/main.js?v=0.5"></script>
 </body>
 </html>
