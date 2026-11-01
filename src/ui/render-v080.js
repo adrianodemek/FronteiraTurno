@@ -105,7 +105,7 @@ export function render(state,refs){
   const defs=drawBackdrop(map);
   const cells=getCells(state.territories);
   const borders=[];
-  const badges=[];
+  const badgeTerritories=[];
 
   // 1) massa de terreno e ambiente interno
   for(const t of state.territories){
@@ -128,7 +128,7 @@ export function render(state,refs){
     map.append(g);
 
     borders.push({t,poly,selected,validTarget});
-    badges.push([g,t]);
+    badgeTerritories.push(t);
   }
 
   // 2) estradas e ferrovias atravessam as divisas como uma rede única
@@ -146,7 +146,6 @@ export function render(state,refs){
   }
 
   drawFrontline(map,state);
-  for(const [g,t] of badges)badge(g,t);
 
   if(state.selectedSource&&state.selectedTarget){
     const a=territoryById(state,state.selectedSource),b=territoryById(state,state.selectedTarget),moving=b?.owner==='blue';
@@ -155,6 +154,11 @@ export function render(state,refs){
       class:`attack-arrow ${moving?'transfer-arrow':''}`
     }));
   }
+
+  // 4) contadores e QG ficam numa camada independente sempre acima do terreno
+  const badgeLayer=el('g',{class:'badge-layer','pointer-events':'none'});
+  for(const t of badgeTerritories)badge(badgeLayer,t);
+  map.append(badgeLayer);
 
   refs.turnLabel.textContent=`${state.turn}/${state.maxTurns}`;
   const bp=territoryPercent(state,'blue'),rp=territoryPercent(state,'red');
