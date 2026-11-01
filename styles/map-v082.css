@@ -1,0 +1,50 @@
+/* V0.8.2 — floresta, fazenda e cidade mais vivas sem infraestrutura global */
+.v082-terrain-layer use{
+  shape-rendering:geometricPrecision;
+  pointer-events:none;
+}
+
+/* A textura-base fica discreta; a identidade vem das massas internas. */
+.terrain-forest{opacity:1}
+.terrain-farm{opacity:1}
+.terrain-city{opacity:1}
+
+/* Nenhuma linha de infraestrutura global deve aparecer nesta versão. */
+.world-road,
+.world-road-shadow,
+.world-rail,
+.world-rail-bed{
+  display:none!important;
+}
+
+/* Mantém leitura forte no mobile sem efeitos GPU. */
+.territory-border{
+  stroke-width:1.25;
+  opacity:.8;
+}
+.territory-border.selected{
+  stroke-width:3.1;
+  filter:none;
+}
+.territory-border.valid-target{
+  animation:none;
+  stroke-dasharray:5 5;
+}
+
+/* Construções locais têm contraste, mas sem sombra pesada. */
+.industrial-block,
+.smokestack,
+.runway,
+.hangar,
+.warehouse,
+.v08-hq,
+.v08-hq-tower{
+  vector-effect:non-scaling-stroke;
+}
+
+@media(max-width:480px){
+  .v082-terrain-layer use{shape-rendering:crispEdges}
+  .territory-border{stroke-width:1.1}
+  .territory-border.selected{stroke-width:2.8}
+  .frontline{opacity:.34}
+}
