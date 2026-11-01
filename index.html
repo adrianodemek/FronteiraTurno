@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#07141a" />
-  <title>FronteiraTurno — V0.3.1</title>
-  <link rel="stylesheet" href="./styles/main.css?v=0.3.1" />
+  <title>FronteiraTurno — V0.4</title>
+  <link rel="stylesheet" href="./styles/main.css?v=0.4" />
 </head>
 <body>
   <main class="game-shell" id="game">
     <header class="hud-top">
       <section class="turn-card">
-        <span>TURNO <em class="build-id">V0.3.1</em></span>
+        <span>TURNO <em class="build-id">V0.4</em></span>
         <strong id="turnLabel">1/12</strong>
       </section>
       <section class="war-meter" aria-label="Controle territorial">
@@ -32,8 +32,14 @@
     </section>
 
     <section class="battlefield-panel">
-      <div class="map-frame">
+      <div class="map-frame" id="mapFrame">
         <svg id="battleMap" viewBox="0 0 420 690" role="img" aria-label="Mapa estratégico"></svg>
+        <div class="map-controls" aria-label="Controles do mapa">
+          <button id="zoomInBtn" type="button" aria-label="Aproximar mapa">+</button>
+          <output id="zoomLabel" aria-live="polite">100%</output>
+          <button id="zoomOutBtn" type="button" aria-label="Afastar mapa">−</button>
+        </div>
+        <div class="gesture-hint">2 dedos: mover / zoom</div>
       </div>
     </section>
 
@@ -54,6 +60,6 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </main>
-  <script type="module" src="./src/main.js?v=0.3.1"></script>
+  <script type="module" src="./src/main.js?v=0.4"></script>
 </body>
 </html>
