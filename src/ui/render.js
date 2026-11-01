@@ -1,1 +1,1 @@
-export { render } from './render-v081.js?v=0.8.1';
+export { render } from './render-v082.js?v=0.8.2';
