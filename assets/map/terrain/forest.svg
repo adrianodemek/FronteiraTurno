@@ -1,8 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 72" shape-rendering="crispEdges">
-  <g stroke="#0b2114" stroke-width="2">
-    <rect x="18" y="46" width="5" height="13" fill="#60432a"/><rect x="43" y="43" width="5" height="16" fill="#60432a"/><rect x="69" y="47" width="5" height="12" fill="#60432a"/>
-    <path fill="#123a22" d="M20 7 7 28h8L4 43h33L25 28h8z"/><path fill="#1a4b2b" d="M47 2 32 26h9L28 45h39L53 26h9z"/><path fill="#173f25" d="M72 10 58 30h8L55 46h35L78 30h8z"/>
-    <path fill="#2a6738" d="M17 17 11 27h12zM44 13 37 25h14zM70 19 64 30h12z" stroke="none"/>
-  </g>
-  <g fill="#2b5f37"><rect x="9" y="52" width="10" height="5"/><rect x="27" y="49" width="8" height="6"/><rect x="55" y="52" width="9" height="5"/><rect x="77" y="51" width="8" height="5"/></g>
+  <defs>
+    <g id="pine">
+      <rect x="5" y="14" width="2" height="6" fill="#62462b"/>
+      <path d="M6 1 L1 9 H4 L0 15 H12 L8 9 H11 Z" fill="#173f25"/>
+      <path d="M6 3 V14 H11 L8 9 H10 Z" fill="#2b6337"/>
+      <rect x="2" y="10" width="3" height="2" fill="#347643" opacity=".65"/>
+    </g>
+    <g id="leaf">
+      <rect x="5" y="13" width="3" height="6" fill="#68492d"/>
+      <rect x="1" y="6" width="11" height="9" fill="#245b31"/>
+      <rect x="4" y="2" width="8" height="8" fill="#367a42"/>
+      <rect x="0" y="8" width="6" height="6" fill="#1b4928"/>
+      <rect x="7" y="5" width="7" height="7" fill="#2d6b39"/>
+      <rect x="5" y="5" width="3" height="3" fill="#4b8a50" opacity=".6"/>
+    </g>
+  </defs>
+  <ellipse cx="48" cy="44" rx="43" ry="24" fill="#12331e" opacity=".2"/>
+  <path d="M4 54 Q20 42 36 50 T68 48 T94 53" fill="none" stroke="#274a29" stroke-width="5" opacity=".35"/>
+  <use href="#pine" x="3" y="13"/><use href="#pine" x="14" y="5"/><use href="#leaf" x="25" y="12"/>
+  <use href="#pine" x="38" y="3"/><use href="#pine" x="51" y="8"/><use href="#leaf" x="64" y="4"/>
+  <use href="#pine" x="78" y="12"/><use href="#leaf" x="8" y="30"/><use href="#pine" x="20" y="27"/>
+  <use href="#pine" x="34" y="29"/><use href="#leaf" x="47" y="25"/><use href="#pine" x="60" y="29"/>
+  <use href="#pine" x="74" y="27"/><use href="#leaf" x="82" y="34"/>
+  <use href="#pine" x="3" y="47"/><use href="#pine" x="17" y="46"/><use href="#leaf" x="30" y="48"/>
+  <use href="#pine" x="44" y="45"/><use href="#leaf" x="57" y="46"/><use href="#pine" x="70" y="47"/>
+  <use href="#pine" x="84" y="49"/>
+  <rect x="12" y="63" width="9" height="3" fill="#3f6c34" opacity=".7"/>
+  <rect x="40" y="60" width="12" height="3" fill="#315a2e" opacity=".75"/>
+  <rect x="69" y="64" width="10" height="3" fill="#4b7638" opacity=".65"/>
 </svg>
