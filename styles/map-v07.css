@@ -1,0 +1,161 @@
+/* V0.7 — primeira camada visual do mapa orgânico */
+
+.territory-shape{
+  stroke-width:2.15;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 1px 0 #15251f66);
+}
+.owner-tint{opacity:.075}
+.territory-shape.selected{
+  stroke:#fff1a3;
+  stroke-width:4.2;
+}
+.territory-shape.valid-target{
+  stroke-dasharray:6 4;
+}
+.terrain-decor{
+  pointer-events:none;
+  image-rendering:pixelated;
+}
+.ground-speck{
+  fill:#ede4bd;
+  opacity:.11;
+}
+.tree-trunk{fill:#4a3824}
+.tree-crown{
+  fill:#173e25;
+  stroke:#0d2918;
+  stroke-width:1.05;
+  stroke-linejoin:round;
+}
+.house-wall{
+  fill:#bba376;
+  stroke:#554532;
+  stroke-width:1;
+}
+.house-roof{
+  stroke:#4c2e24;
+  stroke-width:1;
+  stroke-linejoin:round;
+}
+.roof-warm{fill:#8e4c32}
+.roof-dark{fill:#5d5143}
+.house-door{fill:#4d392a}
+.local-road{
+  fill:none;
+  stroke:#cfb27c;
+  stroke-width:4.6;
+  stroke-linecap:round;
+  opacity:.66;
+}
+.local-road.faint{
+  stroke-width:3.4;
+  opacity:.34;
+}
+.field-patch{
+  stroke:#6a5d2e;
+  stroke-width:1;
+}
+.field-0{fill:#b7a251}
+.field-1{fill:#8f8344}
+.field-line{
+  stroke:#d7c979;
+  stroke-width:.8;
+  opacity:.58;
+}
+.mountain-main{
+  fill:#878d86;
+  stroke:#4c524f;
+  stroke-width:1.25;
+  stroke-linejoin:round;
+}
+.mountain-shadow{fill:#5e6561;opacity:.85}
+.snow-cap{
+  fill:#dfe8e5;
+  stroke:#879592;
+  stroke-width:.65;
+}
+.snow-rock{fill:#7e8987}
+.rock-chip{
+  fill:#5d625e;
+  stroke:#3f4541;
+  stroke-width:.7;
+}
+.bush{fill:#35582f;stroke:#263e23;stroke-width:.7}
+
+.dock-main,.dock-pier{
+  fill:none;
+  stroke:#473a28;
+  stroke-width:4.2;
+  stroke-linecap:square;
+}
+.dock-pier{stroke-width:2.3}
+.port-flag{
+  fill:#dbc77c;
+  stroke:#4b3d29;
+  stroke-width:1.2;
+}
+
+.hq-base{
+  stroke:#2a2118;
+  stroke-width:1.5;
+}
+.hq-blue{fill:#526c74}
+.hq-red{fill:#72534a}
+.hq-tower{
+  fill:#82745d;
+  stroke:#352c24;
+  stroke-width:1.2;
+}
+.hq-roof{fill:#4f4336;stroke:#2c251f;stroke-width:1}
+.hq-gate{fill:#241f1c}
+.hq-flag{stroke:#33281f;stroke-width:1.2}
+.hq-flag-blue{fill:#5bbcff}
+.hq-flag-red{fill:#ef735d}
+
+.sea-rock{
+  fill:#3c5a5c;
+  stroke:#9cc8c4;
+  stroke-width:1.2;
+  opacity:.82;
+}
+.foam-mini{
+  fill:none;
+  stroke:#d3f3ec;
+  stroke-width:1.1;
+  opacity:.68;
+}
+.island-shadow-under{opacity:.5}
+.island-shadow{
+  fill:#5c604d;
+  stroke:#d7d0a8;
+  stroke-width:3.2;
+}
+.coast-foam{
+  stroke:#d7f5ef;
+  stroke-width:1.8;
+  stroke-dasharray:3 5;
+  opacity:.84;
+}
+.wave{
+  opacity:.105;
+  stroke-width:.9;
+}
+.frontline{
+  stroke-width:1.6;
+  opacity:.45;
+}
+.troop-badge{
+  stroke-width:1.8;
+  filter:drop-shadow(0 2px 1px #0008);
+}
+.troop-text{
+  font-size:13px;
+}
+.hq-star{
+  font-size:11px;
+  letter-spacing:.5px;
+}
+.attack-arrow.transfer-arrow{
+  stroke:#9eea7b;
+}
