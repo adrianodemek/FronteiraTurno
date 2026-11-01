@@ -1,8 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 72" shape-rendering="crispEdges">
-  <g stroke="#556360" stroke-width="2">
-    <path d="M5 59 28 18l20 41z" fill="#8e9b98"/><path d="M28 18 48 59 36 49 31 55 25 45 18 59z" fill="#65726f"/>
-    <path d="M34 59 59 9l32 50z" fill="#9ca8a4"/><path d="M59 9 91 59 71 47 64 54 58 42 50 59z" fill="#6d7976"/>
-  </g>
-  <g fill="#e8efec" stroke="#9aa7a3" stroke-width="1"><path d="M28 18 21 31l7-3 5 6 5-3-5-10z"/><path d="M59 9 50 27l8-4 6 7 7-4-7-13z"/></g>
-  <g fill="#dbe5e2"><rect x="8" y="59" width="25" height="5"/><rect x="46" y="59" width="39" height="5"/><rect x="18" y="66" width="12" height="3"/><rect x="63" y="65" width="16" height="3"/></g>
+  <defs>
+    <g id="pine"><rect x="5" y="14" width="2" height="6" fill="#59432e"/><path d="M6 1 L1 9 H4 L0 15 H12 L8 9 H11 Z" fill="#244532"/><path d="M6 3 V14 H11 L8 9 H10 Z" fill="#315946"/></g>
+  </defs>
+  <path d="M3 57 L23 30 L38 51 L52 13 L70 46 L84 26 L94 56 Z" fill="#9aa5a3" stroke="#65716f" stroke-width="1"/>
+  <path d="M23 30 L19 36 L23 34 L27 38 L31 34 L38 51 Z" fill="#e4ecea"/>
+  <path d="M52 13 L44 28 L50 24 L54 29 L59 24 L70 46 Z" fill="#edf2f0"/>
+  <path d="M84 26 L78 35 L83 32 L86 36 L90 33 L94 56 Z" fill="#dce5e2"/>
+  <ellipse cx="47" cy="59" rx="42" ry="8" fill="#dbe4e1" opacity=".22"/>
+  <use href="#pine" x="5" y="45"/><use href="#pine" x="18" y="50"/><use href="#pine" x="67" y="48"/><use href="#pine" x="82" y="45"/>
+  <path d="M9 22 L14 16 L18 20 L16 25 Z" fill="#77817f"/><path d="M72 18 L77 13 L82 17 L79 22 Z" fill="#7f8986"/>
+  <rect x="28" y="60" width="7" height="3" fill="#80908b" opacity=".65"/><rect x="58" y="58" width="8" height="3" fill="#75857f" opacity=".6"/>
 </svg>
