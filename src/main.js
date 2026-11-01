@@ -3,7 +3,7 @@ import { canSelectSource, canTarget } from './game/map.js';
 import { attackChance, maxAttackTroops, resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
 import { LANDMASSES } from './data/map.js';
-import { render } from './ui/render.js?v=0.6';
+import { render } from './ui/render.js?v=0.6.1';
 
 let state=createInitialState();
 let aiTimer=0,resizeRaf=0;
@@ -117,7 +117,7 @@ refs.map.addEventListener('click',e=>{
     if(canSelectSource(state,t)){state.selectedSource=t.id;state.selectedTarget=null;state.attackTroops=1;}
   }else if(canTarget(state,src,t)){
     state.selectedTarget=t.id;
-    state.attackTroops=1;
+    state.attackTroops=maxAttackTroops(src);
   }else showToast('Esse território não é vizinho.');
   paint();
 });
@@ -139,7 +139,7 @@ refs.attackBtn.addEventListener('click',()=>{
   if(state.orders<1)return showToast('Sem ordens disponíveis.');
   const src=territoryById(state,state.selectedSource),tar=territoryById(state,state.selectedTarget);
   if(!src||!tar)return;
-  const sent=clamp(state.attackTroops||1,1,maxAttackTroops(src));
+  const sent=clamp(state.attackTroops||maxAttackTroops(src),1,maxAttackTroops(src));
   const wasHQ=tar.hq,r=resolveAttack(src,tar,sent);
   state.orders--;
   showToast(r.win?`Vitória! ${r.committed} tropas atacaram ${tar.id}.`:`Ataque repelido em ${tar.id}.`);
