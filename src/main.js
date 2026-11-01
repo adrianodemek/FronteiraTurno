@@ -1,9 +1,9 @@
 import { createInitialState, territoryById, owned } from './game/state.js';
-import { canSelectSource, canTarget } from './game/map.js';
+import { canSelectSource, canTarget, isNeighbor } from './game/map.js';
 import { attackChance, maxAttackTroops, resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
 import { LANDMASSES } from './data/map.js';
-import { render } from './ui/render.js?v=0.6.2';
+import { render } from './ui/render.js?v=0.6.3';
 
 let state=createInitialState();
 let aiTimer=0,resizeRaf=0;
@@ -110,11 +110,18 @@ refs.map.addEventListener('click',e=>{
   const t=territoryById(state,g.dataset.id),src=state.selectedSource?territoryById(state,state.selectedSource):null;
   if(!src){
     if(canSelectSource(state,t)){state.selectedSource=t.id;state.attackTroops=1;showToast(`${t.id} selecionado`);}
-    else if(t.owner==='blue'&&t.troops<2)showToast('Este território precisa de 2+ tropas para atacar.');
+    else if(t.owner==='blue'&&t.troops<2)showToast('Este território precisa de 2+ tropas para mover ou atacar.');
   }else if(t.id===src.id){
     clearSelection();
   }else if(t.owner==='blue'){
-    if(canSelectSource(state,t)){state.selectedSource=t.id;state.selectedTarget=null;state.attackTroops=1;}
+    if(isNeighbor(src.id,t.id)){
+      state.selectedTarget=t.id;
+      state.attackTroops=maxAttackTroops(src);
+    }else if(canSelectSource(state,t)){
+      state.selectedSource=t.id;
+      state.selectedTarget=null;
+      state.attackTroops=1;
+    }else showToast('Para transferir tropas, escolha um território seu vizinho.');
   }else if(canTarget(state,src,t)){
     state.selectedTarget=t.id;
     state.attackTroops=maxAttackTroops(src);
@@ -132,7 +139,7 @@ refs.attackTroops.addEventListener('input',()=>{
   refs.attackTroops.value=String(sent);
   refs.attackTroopsValue.textContent=String(sent);
   refs.attackTroopsMax.textContent=String(maxSent);
-  refs.chanceText.textContent=`${Math.round(attackChance(src,tar,sent)*100)}%`;
+  if(tar.owner!=='blue')refs.chanceText.textContent=`${Math.round(attackChance(src,tar,sent)*100)}%`;
 });
 
 refs.attackBtn.addEventListener('click',()=>{
@@ -140,6 +147,17 @@ refs.attackBtn.addEventListener('click',()=>{
   const src=territoryById(state,state.selectedSource),tar=territoryById(state,state.selectedTarget);
   if(!src||!tar)return;
   const sent=clamp(state.attackTroops||maxAttackTroops(src),1,maxAttackTroops(src));
+
+  if(tar.owner==='blue'){
+    if(!isNeighbor(src.id,tar.id))return showToast('Os territórios precisam ser vizinhos.');
+    src.troops-=sent;
+    tar.troops+=sent;
+    state.orders--;
+    showToast(`${sent} tropa${sent===1?'':'s'} movida${sent===1?'':'s'} para ${tar.id}.`);
+    clearSelection();paint();
+    return;
+  }
+
   const wasHQ=tar.hq,r=resolveAttack(src,tar,sent);
   state.orders--;
   showToast(r.win?`Vitória! ${r.committed} tropas atacaram ${tar.id}.`:`Ataque repelido em ${tar.id}.`);
