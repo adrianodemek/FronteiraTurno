@@ -1,32 +1,41 @@
 export const LANDMASSES = [
   {
     id:'central',
-    points:[[146,24],[193,18],[242,23],[286,35],[322,56],[347,88],[361,125],[371,163],[369,201],[380,240],[372,278],[381,318],[372,357],[379,398],[369,438],[357,478],[338,515],[319,550],[304,585],[278,615],[245,635],[208,646],[170,643],[133,632],[101,613],[76,586],[58,553],[45,516],[36,478],[34,440],[40,402],[31,365],[38,328],[29,292],[35,254],[30,217],[39,181],[43,145],[55,112],[74,82],[98,55],[121,37]]
+    points:[
+      [142,23],[177,15],[216,19],[248,29],[276,43],[302,62],[329,70],[347,91],
+      [343,116],[366,136],[358,161],[380,184],[374,212],[389,235],[375,260],
+      [384,287],[368,312],[383,338],[368,365],[381,392],[367,419],[374,447],
+      [354,471],[359,497],[339,520],[329,548],[302,562],[291,588],[266,604],
+      [244,629],[214,641],[187,634],[161,643],[136,626],[109,620],[91,595],
+      [66,582],[57,556],[39,536],[46,506],[31,480],[40,451],[28,422],[44,396],
+      [32,369],[45,342],[30,316],[43,289],[31,260],[49,236],[39,207],[56,183],
+      [50,153],[67,128],[72,102],[94,83],[105,59],[126,43]
+    ]
   }
 ];
 
 export const TERRITORY_TEMPLATE = [
-  { id:'A1', x:165, y:76, terrain:'city', owner:'blue', troops:12, hq:true, landmass:'central' },
-  { id:'A2', x:265, y:72, terrain:'snow', owner:'neutral', troops:1, landmass:'central' },
-  { id:'B1', x:108, y:154, terrain:'port', owner:'neutral', troops:2, landmass:'central' },
-  { id:'B2', x:205, y:151, terrain:'forest', owner:'blue', troops:2, landmass:'central' },
-  { id:'B3', x:308, y:162, terrain:'farm', owner:'neutral', troops:2, landmass:'central' },
-  { id:'C1', x:72, y:244, terrain:'rock', owner:'neutral', troops:3, landmass:'central' },
-  { id:'C2', x:157, y:236, terrain:'forest', owner:'neutral', troops:3, landmass:'central' },
-  { id:'C3', x:246, y:242, terrain:'plains', owner:'neutral', troops:2, landmass:'central' },
-  { id:'C4', x:337, y:248, terrain:'forest', owner:'neutral', troops:2, landmass:'central' },
-  { id:'D1', x:96, y:333, terrain:'city', owner:'neutral', troops:4, landmass:'central' },
-  { id:'D2', x:191, y:324, terrain:'rock', owner:'neutral', troops:3, landmass:'central' },
-  { id:'D3', x:295, y:332, terrain:'farm', owner:'neutral', troops:3, landmass:'central' },
-  { id:'E1', x:80, y:422, terrain:'farm', owner:'neutral', troops:2, landmass:'central' },
-  { id:'E2', x:165, y:414, terrain:'plains', owner:'neutral', troops:2, landmass:'central' },
-  { id:'E3', x:257, y:419, terrain:'city', owner:'neutral', troops:4, landmass:'central' },
-  { id:'E4', x:341, y:416, terrain:'rock', owner:'neutral', troops:3, landmass:'central' },
-  { id:'F1', x:119, y:506, terrain:'forest', owner:'neutral', troops:2, landmass:'central' },
-  { id:'F2', x:211, y:510, terrain:'farm', owner:'red', troops:2, landmass:'central' },
-  { id:'F3', x:304, y:501, terrain:'port', owner:'neutral', troops:2, landmass:'central' },
-  { id:'G1', x:160, y:594, terrain:'plains', owner:'neutral', troops:1, landmass:'central' },
-  { id:'G2', x:256, y:590, terrain:'city', owner:'red', troops:12, hq:true, landmass:'central' }
+  { id:'A1', x:145, y:72, terrain:'city', owner:'blue', troops:12, hq:true, landmass:'central' },
+  { id:'A2', x:268, y:78, terrain:'snow', owner:'neutral', troops:1, landmass:'central' },
+  { id:'B1', x:82, y:164, terrain:'port', owner:'neutral', troops:2, landmass:'central' },
+  { id:'B2', x:183, y:145, terrain:'forest', owner:'blue', troops:2, landmass:'central' },
+  { id:'B3', x:313, y:169, terrain:'farm', owner:'neutral', troops:2, landmass:'central' },
+  { id:'C1', x:63, y:261, terrain:'rock', owner:'neutral', troops:3, landmass:'central' },
+  { id:'C2', x:145, y:232, terrain:'forest', owner:'neutral', troops:3, landmass:'central' },
+  { id:'C3', x:247, y:252, terrain:'plains', owner:'neutral', troops:2, landmass:'central' },
+  { id:'C4', x:350, y:243, terrain:'forest', owner:'neutral', troops:2, landmass:'central' },
+  { id:'D1', x:90, y:345, terrain:'city', owner:'neutral', troops:4, landmass:'central' },
+  { id:'D2', x:191, y:321, terrain:'rock', owner:'neutral', troops:3, landmass:'central' },
+  { id:'D3', x:299, y:344, terrain:'farm', owner:'neutral', troops:3, landmass:'central' },
+  { id:'E1', x:65, y:431, terrain:'farm', owner:'neutral', troops:2, landmass:'central' },
+  { id:'E2', x:158, y:411, terrain:'plains', owner:'neutral', troops:2, landmass:'central' },
+  { id:'E3', x:261, y:431, terrain:'city', owner:'neutral', troops:4, landmass:'central' },
+  { id:'E4', x:352, y:414, terrain:'rock', owner:'neutral', troops:3, landmass:'central' },
+  { id:'F1', x:111, y:521, terrain:'forest', owner:'neutral', troops:2, landmass:'central' },
+  { id:'F2', x:218, y:501, terrain:'farm', owner:'red', troops:2, landmass:'central' },
+  { id:'F3', x:321, y:513, terrain:'port', owner:'neutral', troops:2, landmass:'central' },
+  { id:'G1', x:152, y:602, terrain:'plains', owner:'neutral', troops:1, landmass:'central' },
+  { id:'G2', x:267, y:588, terrain:'city', owner:'red', troops:12, hq:true, landmass:'central' }
 ];
 
 export const NEIGHBORS = {
