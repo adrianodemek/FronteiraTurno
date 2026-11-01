@@ -40,7 +40,7 @@ export function render(state,refs){
 
   if(src&&tar){
     const maxSent=maxAttackTroops(src);
-    const sent=Math.max(1,Math.min(maxSent,state.attackTroops||1));
+    const sent=Math.max(1,Math.min(maxSent,state.attackTroops||maxSent));
     refs.attackTroops.min='1';
     refs.attackTroops.max=String(maxSent);
     refs.attackTroops.value=String(sent);
@@ -49,7 +49,7 @@ export function render(state,refs){
     refs.attackTroopsMax.textContent=String(maxSent);
     refs.chanceText.textContent=`${Math.round(attackChance(src,tar,sent)*100)}%`;
     refs.actionTitle.textContent=`${src.id} → ${tar.id}`;
-    refs.actionText.textContent=maxSent<=1?'Só 1 tropa pode ser enviada neste ataque.':'Escolha quantas tropas enviar. Pelo menos 1 fica defendendo a origem.';
+    refs.actionText.textContent=maxSent<=1?'Só 1 tropa pode ser enviada neste ataque.':'Máximo selecionado. Reduza apenas se quiser poupar tropas.';
   }else if(src){
     refs.actionTitle.textContent=`Território ${src.id} selecionado`;
     refs.actionText.textContent='Escolha um território vizinho inimigo ou neutro.';
