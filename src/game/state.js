@@ -20,6 +20,6 @@ export function createInitialState(){
 export function territoryById(state,id){ return state.territories.find(t=>t.id===id); }
 export function owned(state,owner){ return state.territories.filter(t=>t.owner===owner); }
 export function territoryPercent(state,owner){
-  const active = state.territories.filter(t=>t.owner!=='neutral').length || 1;
-  return Math.round((owned(state,owner).length/active)*100);
+  const total = state.territories.length || 1;
+  return Math.round((owned(state,owner).length/total)*100);
 }
