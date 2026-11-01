@@ -1,13 +1,40 @@
 import { createInitialState, territoryById, owned } from './game/state.js';
 import { canSelectSource, canTarget } from './game/map.js';
-import { resolveAttack } from './game/combat.js';
+import { attackChance, maxAttackTroops, resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
 import { LANDMASSES } from './data/map.js';
-import { render } from './ui/render.js?v=0.5.2';
+import { render } from './ui/render.js?v=0.6';
 
 let state=createInitialState();
 let aiTimer=0,resizeRaf=0;
-const refs={map:document.querySelector('#battleMap'),mapFrame:document.querySelector('#mapFrame'),hudTop:document.querySelector('#hudTop'),objectiveStrip:document.querySelector('#objectiveStrip'),bottomDock:document.querySelector('#bottomDock'),turnLabel:document.querySelector('#turnLabel'),blueScore:document.querySelector('#blueScore'),redScore:document.querySelector('#redScore'),warBlue:document.querySelector('#warBlue'),orders:document.querySelector('#orders'),ownedCount:document.querySelector('#ownedCount'),neutralCount:document.querySelector('#neutralCount'),hqCount:document.querySelector('#hqCount'),actionPanel:document.querySelector('#actionPanel'),actionTitle:document.querySelector('#actionTitle'),actionText:document.querySelector('#actionText'),chanceBox:document.querySelector('#chanceBox'),chanceText:document.querySelector('#chanceText'),attackBtn:document.querySelector('#attackBtn'),endTurnBtn:document.querySelector('#endTurnBtn'),reinforceCard:document.querySelector('#reinforceCard'),toast:document.querySelector('#toast')};
+const refs={
+  map:document.querySelector('#battleMap'),
+  mapFrame:document.querySelector('#mapFrame'),
+  hudTop:document.querySelector('#hudTop'),
+  objectiveStrip:document.querySelector('#objectiveStrip'),
+  bottomDock:document.querySelector('#bottomDock'),
+  turnLabel:document.querySelector('#turnLabel'),
+  blueScore:document.querySelector('#blueScore'),
+  redScore:document.querySelector('#redScore'),
+  warBlue:document.querySelector('#warBlue'),
+  orders:document.querySelector('#orders'),
+  ownedCount:document.querySelector('#ownedCount'),
+  neutralCount:document.querySelector('#neutralCount'),
+  hqCount:document.querySelector('#hqCount'),
+  actionPanel:document.querySelector('#actionPanel'),
+  actionTitle:document.querySelector('#actionTitle'),
+  actionText:document.querySelector('#actionText'),
+  chanceBox:document.querySelector('#chanceBox'),
+  chanceText:document.querySelector('#chanceText'),
+  attackStrength:document.querySelector('#attackStrength'),
+  attackTroops:document.querySelector('#attackTroops'),
+  attackTroopsValue:document.querySelector('#attackTroopsValue'),
+  attackTroopsMax:document.querySelector('#attackTroopsMax'),
+  attackBtn:document.querySelector('#attackBtn'),
+  endTurnBtn:document.querySelector('#endTurnBtn'),
+  reinforceCard:document.querySelector('#reinforceCard'),
+  toast:document.querySelector('#toast')
+};
 
 const MIN_ZOOM=1,MAX_ZOOM=3,MAP_MARGIN=24,PAN_SEA=105;
 const pointers=new Map();
@@ -73,11 +100,53 @@ refs.map.addEventListener('pointerup',endPointer);refs.map.addEventListener('poi
 
 function showToast(text){refs.toast.textContent=text;refs.toast.classList.add('show');clearTimeout(showToast.t);showToast.t=setTimeout(()=>refs.toast.classList.remove('show'),1800);}
 function checkWinner(){const blueHq=state.territories.find(t=>t.hq&&t.id==='A1'),redHq=state.territories.find(t=>t.hq&&t.id==='G2');if(redHq.owner==='blue')state.winner='blue';else if(blueHq.owner==='red')state.winner='red';else if(state.turn>state.maxTurns)state.winner=owned(state,'blue').length>=owned(state,'red').length?'blue':'red';}
-function clearSelection(){state.selectedSource=null;state.selectedTarget=null;}
+function clearSelection(){state.selectedSource=null;state.selectedTarget=null;state.attackTroops=1;}
 function paint(){checkWinner();render(state,refs);applyCamera();}
 
-refs.map.addEventListener('click',e=>{if(Date.now()<suppressClickUntil)return;const g=e.target.closest?.('.territory');if(!g||state.phase!=='player'||state.winner)return;const t=territoryById(state,g.dataset.id),src=state.selectedSource?territoryById(state,state.selectedSource):null;if(!src){if(canSelectSource(state,t)){state.selectedSource=t.id;showToast(`${t.id} selecionado`);}else if(t.owner==='blue'&&t.troops<2)showToast('Este território precisa de 2+ tropas para atacar.');}else if(t.id===src.id)clearSelection();else if(t.owner==='blue'){if(canSelectSource(state,t))state.selectedSource=t.id;state.selectedTarget=null;}else if(canTarget(state,src,t))state.selectedTarget=t.id;else showToast('Esse território não é vizinho.');paint();});
-refs.attackBtn.addEventListener('click',()=>{if(state.orders<1)return showToast('Sem ordens disponíveis.');const src=territoryById(state,state.selectedSource),tar=territoryById(state,state.selectedTarget);if(!src||!tar)return;const wasHQ=tar.hq,r=resolveAttack(src,tar);state.orders--;showToast(r.win?`Vitória! ${tar.id} conquistado.`:`Ataque repelido em ${tar.id}.`);clearSelection();checkWinner();paint();if(wasHQ&&r.win)showToast('QG inimigo capturado!');});
+refs.map.addEventListener('click',e=>{
+  if(Date.now()<suppressClickUntil)return;
+  const g=e.target.closest?.('.territory');
+  if(!g||state.phase!=='player'||state.winner)return;
+  const t=territoryById(state,g.dataset.id),src=state.selectedSource?territoryById(state,state.selectedSource):null;
+  if(!src){
+    if(canSelectSource(state,t)){state.selectedSource=t.id;state.attackTroops=1;showToast(`${t.id} selecionado`);}
+    else if(t.owner==='blue'&&t.troops<2)showToast('Este território precisa de 2+ tropas para atacar.');
+  }else if(t.id===src.id){
+    clearSelection();
+  }else if(t.owner==='blue'){
+    if(canSelectSource(state,t)){state.selectedSource=t.id;state.selectedTarget=null;state.attackTroops=1;}
+  }else if(canTarget(state,src,t)){
+    state.selectedTarget=t.id;
+    state.attackTroops=1;
+  }else showToast('Esse território não é vizinho.');
+  paint();
+});
+
+refs.attackTroops.addEventListener('input',()=>{
+  const src=state.selectedSource?territoryById(state,state.selectedSource):null;
+  const tar=state.selectedTarget?territoryById(state,state.selectedTarget):null;
+  if(!src||!tar)return;
+  const maxSent=maxAttackTroops(src);
+  const sent=clamp(Number(refs.attackTroops.value)||1,1,maxSent);
+  state.attackTroops=sent;
+  refs.attackTroops.value=String(sent);
+  refs.attackTroopsValue.textContent=String(sent);
+  refs.attackTroopsMax.textContent=String(maxSent);
+  refs.chanceText.textContent=`${Math.round(attackChance(src,tar,sent)*100)}%`;
+});
+
+refs.attackBtn.addEventListener('click',()=>{
+  if(state.orders<1)return showToast('Sem ordens disponíveis.');
+  const src=territoryById(state,state.selectedSource),tar=territoryById(state,state.selectedTarget);
+  if(!src||!tar)return;
+  const sent=clamp(state.attackTroops||1,1,maxAttackTroops(src));
+  const wasHQ=tar.hq,r=resolveAttack(src,tar,sent);
+  state.orders--;
+  showToast(r.win?`Vitória! ${r.committed} tropas atacaram ${tar.id}.`:`Ataque repelido em ${tar.id}.`);
+  clearSelection();checkWinner();paint();
+  if(wasHQ&&r.win)showToast('QG inimigo capturado!');
+});
+
 refs.reinforceCard.addEventListener('click',()=>{if(state.reinforceUsed||state.orders<1)return;const t=state.selectedSource?territoryById(state,state.selectedSource):null;if(!t||t.owner!=='blue'){showToast('Selecione primeiro um território azul.');return;}t.troops+=2;state.orders--;state.reinforceUsed=true;showToast(`+2 tropas em ${t.id}`);paint();});
 refs.endTurnBtn.addEventListener('click',()=>{if(state.winner)return;clearSelection();state.phase='ai';paint();showToast('Turno inimigo');clearTimeout(aiTimer);aiTimer=setTimeout(()=>{const events=runAiTurn(state),wins=events.filter(e=>e.result.win).length;showToast(events.length?`Inimigo: ${events.length} ataques, ${wins} conquistas.`:'Inimigo reorganizou as tropas.');state.turn++;state.orders=state.maxOrders;state.reinforceUsed=false;state.phase='player';for(const t of state.territories.filter(t=>t.owner==='blue'))if(Math.random()<.24)t.troops++;paint();},650);});
 
