@@ -1,0 +1,67 @@
+/* V0.9 — mapa estático premium + camadas jogáveis leves */
+.v09-static-map{pointer-events:none}
+.v09-hit-shape{pointer-events:all}
+.v09-owner-tint{opacity:.055;pointer-events:none}
+.v09-border{
+  stroke-width:1.35;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+  opacity:.8;
+}
+.v09-border.selected{
+  stroke:#fff1a3;
+  stroke-width:3.25;
+  opacity:1;
+  filter:none;
+}
+.v09-border.valid-target{
+  stroke-dasharray:5 5;
+  stroke-width:2.15;
+  opacity:.95;
+  animation:none;
+}
+.v09-frontline{opacity:.34}
+
+/* O ambiente é visual apenas: nenhum elemento intercepta toque. */
+.v09-environment{pointer-events:none}
+.v09-sea-streak{
+  fill:none;
+  stroke:#a6d5d8;
+  stroke-width:1.15;
+  stroke-dasharray:8 8;
+  opacity:.32;
+  vector-effect:non-scaling-stroke;
+}
+.v09-wind-line{
+  fill:none;
+  stroke:#dce6c9;
+  stroke-width:1;
+  stroke-linecap:round;
+  opacity:.12;
+  vector-effect:non-scaling-stroke;
+}
+.v09-plane{opacity:.62}
+.v09-plane-body{
+  fill:#36434a;
+  stroke:#d4d3bd;
+  stroke-width:.75;
+  vector-effect:non-scaling-stroke;
+}
+.v09-birds{fill:none;stroke:#26352e;stroke-width:1.1;stroke-linecap:round;opacity:.56;vector-effect:non-scaling-stroke}
+
+/* A arte é estática e os overlays não recebem filtros pesados. */
+.v09-static-layer,.v09-interaction-layer,.v09-border-layer,.v09-frontline-layer,.v09-action-layer,.v09-badge-layer{filter:none}
+.v09-badge-layer .troop-badge{filter:none!important}
+.v09-badge-layer .hq-star{paint-order:stroke;stroke:#19130d;stroke-width:2px}
+
+@media(max-width:480px){
+  .v09-owner-tint{opacity:.045}
+  .v09-border{stroke-width:1.15}
+  .v09-border.selected{stroke-width:3}
+  .v09-plane{opacity:.52}
+  .v09-birds{opacity:.48}
+  .v09-sea-streak{opacity:.25}
+}
+@media(prefers-reduced-motion:reduce){
+  .v09-environment{display:none}
+}
