@@ -1,4 +1,4 @@
-import { TERRITORY_TEMPLATE } from '../data/map.js';
+import { TERRITORY_TEMPLATE } from '../data/map.js?v=0.7';
 
 export function createInitialState(){
   return {
