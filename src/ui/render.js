@@ -12,6 +12,8 @@ const ISLAND=[
 function el(tag,attrs={}){const n=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);return n;}
 function pointsAttr(poly){return poly.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');}
 function islandPoly(){return ISLAND.map(([x,y])=>({x,y}));}
+let cellCacheKey='';
+let cellCache=null;
 
 function clipHalfPlane(poly,site,other){
   const dx=other.x-site.x,dy=other.y-site.y,mx=(site.x+other.x)/2,my=(site.y+other.y)/2;
@@ -29,6 +31,14 @@ function territoryCell(t,territories){
   let poly=islandPoly();
   for(const o of territories){if(o.id===t.id)continue;poly=clipHalfPlane(poly,t,o);if(poly.length<3)break;}
   return poly;
+}
+function getCells(territories){
+  const key=territories.map(t=>`${t.id}:${t.x},${t.y}`).join('|');
+  if(key!==cellCacheKey){
+    cellCacheKey=key;
+    cellCache=new Map(territories.map(t=>[t.id,territoryCell(t,territories)]));
+  }
+  return cellCache;
 }
 
 function drawTerrain(g,t){
@@ -60,12 +70,14 @@ function drawBackdrop(map){
   const defs=el('defs');
   const seaGrad=el('linearGradient',{id:'seaGrad',x1:'0',y1:'0',x2:'0',y2:'1'});seaGrad.innerHTML='<stop offset="0" stop-color="#0c6072"/><stop offset="1" stop-color="#063e4e"/>';
   const glow=el('filter',{id:'glow',x:'-30%',y:'-30%',width:'160%',height:'160%'});glow.innerHTML='<feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>';
-  const shadow=el('filter',{id:'shadow',x:'-20%',y:'-20%',width:'140%',height:'140%'});shadow.innerHTML='<feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#001218" flood-opacity=".8"/>';
-  defs.append(seaGrad,glow,shadow);map.append(defs);
+  defs.append(seaGrad,glow);map.append(defs);
   map.append(el('rect',{x:0,y:0,width:420,height:660,fill:'url(#seaGrad)'}));
-  for(let y=15;y<655;y+=25)map.append(el('path',{d:`M -10 ${y} Q 55 ${y-6} 120 ${y} T 250 ${y} T 430 ${y}`,class:'wave'}));
+  let waveD='';
+  for(let y=18;y<655;y+=42)waveD+=`M -10 ${y} Q 55 ${y-6} 120 ${y} T 250 ${y} T 430 ${y} `;
+  map.append(el('path',{d:waveD,class:'wave'}));
   const pts=ISLAND.map(p=>p.join(',')).join(' ');
-  map.append(el('polygon',{points:pts,class:'island-shadow',filter:'url(#shadow)'}));
+  map.append(el('polygon',{points:pts,class:'island-shadow-under',transform:'translate(0 4)'}));
+  map.append(el('polygon',{points:pts,class:'island-shadow'}));
   map.append(el('polygon',{points:pts,class:'coast-foam'}));
   map.append(el('ellipse',{cx:25,cy:511,rx:8,ry:4,class:'islet'}));
   map.append(el('ellipse',{cx:395,cy:532,rx:7,ry:3.5,class:'islet'}));
@@ -82,7 +94,7 @@ function drawFrontline(map,state){
 
 export function render(state,refs){
   const map=refs.map;map.innerHTML='';drawBackdrop(map);
-  const cells=new Map(state.territories.map(t=>[t.id,territoryCell(t,state.territories)]));
+  const cells=getCells(state.territories);
   for(const t of state.territories){
     const poly=cells.get(t.id);if(!poly||poly.length<3)continue;
     const g=el('g',{class:'territory','data-id':t.id,tabindex:'0',role:'button','aria-label':`${t.id}, ${t.troops} tropas`});
