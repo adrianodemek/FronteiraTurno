@@ -9,6 +9,7 @@ export function createInitialState(){
     phase:'player',
     selectedSource:null,
     selectedTarget:null,
+    attackTroops:1,
     reinforceUsed:false,
     territories:TERRITORY_TEMPLATE.map(t=>({...t})),
     winner:null,
