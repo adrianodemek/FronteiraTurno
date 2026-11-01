@@ -1,0 +1,139 @@
+/* V0.8 — território como ambiente, não como sprite central */
+.territory-base{shape-rendering:geometricPrecision}
+.territory-border{
+  stroke-width:1.35;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+  opacity:.82;
+}
+.territory-border.selected{
+  stroke:#fff0a0;
+  stroke-width:3.6;
+  opacity:1;
+}
+.territory-border.valid-target{
+  stroke-dasharray:5 4;
+  stroke-width:2.2;
+  animation:targetPulse 1s ease-in-out infinite alternate;
+}
+.owner-tint{opacity:.055}
+
+.terrain-patch{fill:#e1d1a0;pointer-events:none}
+.patch-earth,.patch-mud{fill:#302f24}
+.patch-grass{fill:#c8d191}
+.patch-loam{fill:#d3bd6d}
+.patch-dirt,.patch-clay{fill:#b7825d}
+.patch-sand{fill:#e4cf92}
+.patch-rock{fill:#4b4d49}
+.patch-snow{fill:#eef5f1}
+
+.crop-row{
+  stroke:#d7c478;
+  stroke-width:1.05;
+  opacity:.34;
+  vector-effect:non-scaling-stroke;
+}
+.snow-speck{fill:#f5fbf8;opacity:.36}
+
+.mini-mountain{
+  fill:#7b7e75;
+  stroke:#50534e;
+  stroke-width:.9;
+  stroke-linejoin:round;
+}
+.mini-mountain.mini-snow{fill:#8a9592}
+.mini-snowcap{fill:#e8f0ed;stroke:#8d9996;stroke-width:.45}
+
+.industrial-block{
+  fill:#6f6858;
+  stroke:#3c3a33;
+  stroke-width:1;
+}
+.smokestack{
+  fill:#554d43;
+  stroke:#342f2a;
+  stroke-width:.8;
+}
+.runway{
+  fill:#555b58;
+  stroke:#2b302f;
+  stroke-width:1.2;
+}
+.runway-mark{
+  stroke:#d8d8c8;
+  stroke-width:1.1;
+  stroke-dasharray:5 4;
+}
+.hangar{
+  fill:#66706c;
+  stroke:#323a37;
+  stroke-width:1;
+}
+.local-dock{
+  fill:none;
+  stroke:#4a3b28;
+  stroke-width:4.2;
+  stroke-linecap:square;
+}
+.warehouse{
+  fill:#8a7456;
+  stroke:#4f402f;
+  stroke-width:1;
+}
+
+.v08-hq{
+  stroke:#2c2922;
+  stroke-width:1.3;
+}
+.v08-hq.friendly{fill:#4e6974}
+.v08-hq.enemy{fill:#735047}
+.v08-hq-tower{
+  fill:#81745e;
+  stroke:#372f27;
+  stroke-width:1;
+}
+.v08-hq-flag{
+  stroke:#3b3025;
+  stroke-width:1.2;
+}
+.v08-hq-flag.friendly{fill:#55b9ff}
+.v08-hq-flag.enemy{fill:#ef6b58}
+
+.world-road-shadow,.world-road,.world-rail-bed,.world-rail{
+  fill:none;
+  pointer-events:none;
+  vector-effect:non-scaling-stroke;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.world-road-shadow{
+  stroke:#443726;
+  stroke-width:6;
+  opacity:.42;
+}
+.world-road{
+  stroke:#c0a36d;
+  stroke-width:3.2;
+  opacity:.72;
+}
+.world-rail-bed{
+  stroke:#3e3c36;
+  stroke-width:4.5;
+  opacity:.65;
+}
+.world-rail{
+  stroke:#b9b5a4;
+  stroke-width:1.45;
+  stroke-dasharray:2.6 4.6;
+  opacity:.88;
+}
+
+/* A infraestrutura e a vegetação ficam abaixo dos contadores. */
+.terrain-decor,.world-road,.world-road-shadow,.world-rail,.world-rail-bed{pointer-events:none}
+.troop-badge{filter:drop-shadow(0 2px 1px #0009)}
+.hq-star{paint-order:stroke;stroke:#19130d;stroke-width:3px}
+
+@media(max-width:360px){
+  .territory-border{stroke-width:1.15}
+  .territory-border.selected{stroke-width:3.2}
+}
