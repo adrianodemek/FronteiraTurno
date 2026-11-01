@@ -22,9 +22,9 @@ function drawFrontline(map,state){for(const [id,ns] of Object.entries(NEIGHBORS)
 
 export function render(state,refs){
   const map=refs.map;map.innerHTML='';drawBackdrop(map);const cells=getCells(state.territories);
-  for(const t of state.territories){const poly=cells.get(t.id);if(!poly||poly.length<3)continue;const g=el('g',{class:'territory','data-id':t.id,'aria-label':`${t.id}, ${t.troops} tropas`}),selected=state.selectedSource===t.id||state.selectedTarget===t.id,source=state.selectedSource?territoryById(state,state.selectedSource):null,validTarget=source&&source.owner==='blue'&&t.owner!=='blue'&&NEIGHBORS[source.id]?.includes(t.id),shape=el('polygon',{points:pointsAttr(poly),fill:TERRAIN[t.terrain],stroke:OWNER[t.owner],class:`territory-shape ${selected?'selected':''} ${validTarget?'valid-target':''}`});if(selected)shape.setAttribute('filter','url(#glow)');g.append(shape);g.append(el('polygon',{points:pointsAttr(poly),fill:OWNER[t.owner],class:'owner-tint'}));drawTerrain(g,t);badge(g,t);map.append(g);}
+  for(const t of state.territories){const poly=cells.get(t.id);if(!poly||poly.length<3)continue;const source=state.selectedSource?territoryById(state,state.selectedSource):null,selected=state.selectedSource===t.id||state.selectedTarget===t.id,validTarget=source&&t.id!==source.id&&NEIGHBORS[source.id]?.includes(t.id),g=el('g',{class:'territory','data-id':t.id,'aria-label':`${t.id}, ${t.troops} tropas`}),shape=el('polygon',{points:pointsAttr(poly),fill:TERRAIN[t.terrain],stroke:OWNER[t.owner],class:`territory-shape ${selected?'selected':''} ${validTarget?'valid-target':''}`});if(selected)shape.setAttribute('filter','url(#glow)');g.append(shape);g.append(el('polygon',{points:pointsAttr(poly),fill:OWNER[t.owner],class:'owner-tint'}));drawTerrain(g,t);badge(g,t);map.append(g);}
   drawFrontline(map,state);
-  if(state.selectedSource&&state.selectedTarget){const a=territoryById(state,state.selectedSource),b=territoryById(state,state.selectedTarget);map.append(el('path',{d:`M ${a.x} ${a.y} Q ${(a.x+b.x)/2+12} ${(a.y+b.y)/2-18} ${b.x} ${b.y}`,class:'attack-arrow'}));}
+  if(state.selectedSource&&state.selectedTarget){const a=territoryById(state,state.selectedSource),b=territoryById(state,state.selectedTarget),moving=b?.owner==='blue';map.append(el('path',{d:`M ${a.x} ${a.y} Q ${(a.x+b.x)/2+12} ${(a.y+b.y)/2-18} ${b.x} ${b.y}`,class:`attack-arrow ${moving?'transfer-arrow':''}`}));}
 
   refs.turnLabel.textContent=`${state.turn}/${state.maxTurns}`;
   const bp=territoryPercent(state,'blue'),rp=territoryPercent(state,'red');refs.blueScore.textContent=`${bp}%`;refs.redScore.textContent=`${rp}%`;refs.warBlue.style.width=`${bp}%`;
@@ -33,9 +33,11 @@ export function render(state,refs){
 
   const src=state.selectedSource?territoryById(state,state.selectedSource):null;
   const tar=state.selectedTarget?territoryById(state,state.selectedTarget):null;
-  const hasAttack=!!(src&&tar&&state.phase==='player'&&!state.winner);
-  refs.attackBtn.hidden=!hasAttack;
-  refs.chanceBox.hidden=!(src&&tar);
+  const hasAction=!!(src&&tar&&state.phase==='player'&&!state.winner);
+  const isTransfer=!!(src&&tar&&tar.owner==='blue');
+  refs.attackBtn.hidden=!hasAction;
+  refs.attackBtn.textContent=isTransfer?'MOVER':'ATACAR';
+  refs.chanceBox.hidden=!(src&&tar&&!isTransfer);
   refs.attackStrength.hidden=!(src&&tar);
 
   if(src&&tar){
@@ -47,12 +49,14 @@ export function render(state,refs){
     refs.attackTroops.disabled=maxSent<=1;
     refs.attackTroopsValue.textContent=String(sent);
     refs.attackTroopsMax.textContent=String(maxSent);
-    refs.chanceText.textContent=`${Math.round(attackChance(src,tar,sent)*100)}%`;
+    const label=refs.attackStrength.querySelector('label');if(label?.firstChild)label.firstChild.textContent=isTransfer?'Mover ':'Enviar ';
+    if(!isTransfer)refs.chanceText.textContent=`${Math.round(attackChance(src,tar,sent)*100)}%`;
     refs.actionTitle.textContent=`${src.id} → ${tar.id}`;
-    refs.actionText.textContent=maxSent<=1?'Só 1 tropa pode ser enviada neste ataque.':'Máximo selecionado. Reduza apenas se quiser poupar tropas.';
+    if(isTransfer){refs.actionText.textContent=maxSent<=1?'Só 1 tropa pode ser transferida. Custa 1 ordem.':'Máximo selecionado. Reduza se quiser manter mais tropas na origem. Custa 1 ordem.';}
+    else{refs.actionText.textContent=maxSent<=1?'Só 1 tropa pode ser enviada neste ataque.':'Máximo selecionado. Reduza apenas se quiser poupar tropas.';}
   }else if(src){
     refs.actionTitle.textContent=`Território ${src.id} selecionado`;
-    refs.actionText.textContent='Escolha um território vizinho inimigo ou neutro.';
+    refs.actionText.textContent='Toque num vizinho seu para reforçar ou num inimigo/neutro para atacar.';
   }else{
     refs.actionTitle.textContent=state.phase==='player'?'Sua vez':'Turno inimigo';
     refs.actionText.textContent=state.phase==='player'?'Escolha um território azul com pelo menos 2 tropas.':'O inimigo está executando suas ordens.';
