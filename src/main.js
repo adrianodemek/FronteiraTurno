@@ -3,7 +3,7 @@ import { canSelectSource, canTarget } from './game/map.js';
 import { attackChance, maxAttackTroops, resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
 import { LANDMASSES } from './data/map.js';
-import { render } from './ui/render.js?v=0.6.1';
+import { render } from './ui/render.js?v=0.6.2';
 
 let state=createInitialState();
 let aiTimer=0,resizeRaf=0;
@@ -90,10 +90,10 @@ function setCamera(zoom,x,y){camera.zoom=clamp(zoom,MIN_ZOOM,MAX_ZOOM);camera.x=
 function applyCamera(){const w=fit.w/camera.zoom,h=fit.h/camera.zoom;refs.map.setAttribute('viewBox',`${camera.x.toFixed(2)} ${camera.y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}`);}
 function localNorm(clientX,clientY){const r=refs.map.getBoundingClientRect();return{nx:clamp((clientX-r.left)/r.width,0,1),ny:clamp((clientY-r.top)/r.height,0,1)};}
 function twoPointers(){return[...pointers.values()].slice(0,2);}
-function beginGesture(){if(pointers.size<2)return;const[a,b]=twoPointers(),mx=(a.x+b.x)/2,my=(a.y+b.y)/2,{nx,ny}=localNorm(mx,my),w=fit.w/camera.zoom,h=fit.h/camera.zoom;gesture={startDistance:Math.hypot(b.x-a.x,b.y-a.y)||1,startZoom:camera.zoom,anchorX:camera.x+nx*w,anchorY:camera.y+ny*h};suppressClickUntil=Date.now()+420;refs.map.classList.add('pinching');}
+function beginGesture(){if(pointers.size<2)return;const[a,b]=twoPointers(),mx=(a.x+b.x)/2,my=(a.y+b.y)/2,{nx,ny}=localNorm(mx,my),w=fit.w/camera.zoom,h=fit.h/camera.zoom;gesture={startDistance:Math.hypot(b.x-a.x,b.y-a.y)||1,startZoom:camera.zoom,anchorX:camera.x+nx*w,anchorY:camera.y+ny*h};suppressClickUntil=Date.now()+420;for(const id of pointers.keys()){try{refs.map.setPointerCapture(id);}catch{}}refs.map.classList.add('pinching');}
 function updateGesture(){if(!gesture||pointers.size<2)return;const[a,b]=twoPointers(),distance=Math.hypot(b.x-a.x,b.y-a.y)||1,newZoom=clamp(gesture.startZoom*(distance/gesture.startDistance),MIN_ZOOM,MAX_ZOOM),mx=(a.x+b.x)/2,my=(a.y+b.y)/2,{nx,ny}=localNorm(mx,my),w=fit.w/newZoom,h=fit.h/newZoom;setCamera(newZoom,gesture.anchorX-nx*w,gesture.anchorY-ny*h);}
 
-refs.map.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});try{refs.map.setPointerCapture(e.pointerId);}catch{}if(pointers.size===2)beginGesture();});
+refs.map.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size===2)beginGesture();});
 refs.map.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size>=2){e.preventDefault();if(!gesture)beginGesture();updateGesture();}});
 function endPointer(e){if(pointers.has(e.pointerId))pointers.delete(e.pointerId);if(pointers.size<2&&gesture){gesture=null;suppressClickUntil=Date.now()+360;refs.map.classList.remove('pinching');}}
 refs.map.addEventListener('pointerup',endPointer);refs.map.addEventListener('pointercancel',endPointer);refs.map.addEventListener('lostpointercapture',endPointer);
