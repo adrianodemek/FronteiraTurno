@@ -1,0 +1,259 @@
+/* V0.5.1 — HUD leve: informação solta sobre o mapa, sem caixas desnecessárias */
+
+/* Sombras/contornos para manter leitura sobre qualquer terreno */
+.turn-card,
+.war-meter,
+.objective-strip > div,
+.action-panel {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.hud-top {
+  grid-template-columns: 76px 1fr 46px;
+  gap: 8px;
+  left: 10px;
+  right: 10px;
+  align-items: start;
+}
+
+.turn-card {
+  padding: 2px 0 0 !important;
+  text-align: left;
+  min-width: 0;
+  text-shadow:
+    0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 -2px 0 #000,
+    0 0 7px #000;
+}
+
+.turn-card span {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: #f2dfad;
+  font-weight: 900;
+}
+
+.turn-card .build-id {
+  font-size: 6px;
+  opacity: .72;
+  margin-top: 0;
+}
+
+.turn-card strong {
+  display: block;
+  margin-top: 1px;
+  font-size: 28px;
+  line-height: .98;
+  color: #fff3d3;
+}
+
+.war-meter {
+  padding: 1px 2px 0 !important;
+  text-shadow:
+    0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 0 6px #000;
+}
+
+.war-score-row {
+  grid-template-columns: 39px 1fr 39px;
+  gap: 5px;
+}
+
+.blue-score,
+.red-score {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.war-bar {
+  height: 10px;
+  border-width: 1px;
+  box-shadow: 0 1px 0 #000, 0 0 5px #000;
+}
+
+.war-bar b {
+  height: 10px;
+}
+
+.orders-wrap {
+  margin-top: 3px;
+}
+
+.orders-wrap > span {
+  font-size: 8px;
+  color: #f2dfad;
+  font-weight: 900;
+}
+
+.orders {
+  gap: 3px;
+  margin-top: 1px;
+}
+
+.orders i {
+  width: 25px;
+  height: 6px;
+  box-shadow: 0 1px 2px #000;
+}
+
+/* Menu continua sendo botão real, mas mais discreto */
+.menu-button {
+  width: 44px;
+  height: 44px;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  font-size: 28px;
+  color: #fff0c8;
+  text-shadow:
+    0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 0 7px #000;
+}
+
+/* Indicadores laterais agora são ícone+número soltos */
+.objective-strip {
+  top: 86px;
+  left: 12px;
+  width: auto;
+  gap: 4px;
+}
+
+.objective-strip > div {
+  padding: 0 !important;
+  min-height: 22px;
+  grid-template-columns: 18px 22px auto;
+  gap: 2px;
+  color: #fff1cb;
+  font-weight: 900;
+  text-shadow:
+    0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 -1px 0 #000,
+    0 0 6px #000;
+}
+
+.objective-strip > div > span {
+  font-size: 16px;
+}
+
+.objective-strip > div > b {
+  font-size: 14px;
+}
+
+.objective-strip small {
+  font-size: 8px;
+  color: #efe3c0;
+}
+
+/* Texto de ação solto, sem painel */
+.action-panel {
+  left: 14px;
+  right: 96px;
+  bottom: 96px;
+  min-height: 0;
+  padding: 0 !important;
+  gap: 6px;
+  align-items: end;
+  text-shadow:
+    0 2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 -1px 0 #000,
+    0 0 8px #000;
+}
+
+.action-copy strong {
+  font-size: 14px;
+  color: #fff5d7;
+}
+
+.action-copy span {
+  margin-top: 2px;
+  font-size: 9px;
+  color: #f1ead5;
+  font-weight: 700;
+}
+
+.chance {
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+  padding: 0 3px;
+  box-shadow: none;
+}
+
+.chance small {
+  color: #e9dcc0;
+  text-shadow: inherit;
+}
+
+.chance strong {
+  font-size: 16px;
+  color: #ffd66f;
+  text-shadow: inherit;
+}
+
+/* Botão de ataque continua sendo ação real */
+.attack-button {
+  box-shadow: 0 3px 0 #130705, 0 0 7px #0009;
+}
+
+/* Zoom: botões permanecem; porcentagem vira texto solto */
+.map-controls output {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: #fff0c8;
+  font-size: 9px;
+  font-weight: 900;
+  text-shadow:
+    0 2px 0 #000,
+    1px 0 0 #000,
+    -1px 0 0 #000,
+    0 0 5px #000;
+}
+
+.gesture-hint {
+  background: transparent;
+  border: 0;
+  padding: 2px 5px;
+  color: #f4ead0;
+  font-weight: 700;
+  text-shadow:
+    0 2px 0 #000,
+    1px 0 0 #000,
+    -1px 0 0 #000,
+    0 0 5px #000;
+}
+
+@media (max-width: 360px) {
+  .hud-top {
+    grid-template-columns: 68px 1fr 42px;
+  }
+
+  .turn-card strong {
+    font-size: 25px;
+  }
+
+  .objective-strip {
+    top: 82px;
+    left: 9px;
+  }
+
+  .action-panel {
+    left: 9px;
+    right: 82px;
+    bottom: 92px;
+  }
+}
