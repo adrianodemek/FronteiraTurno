@@ -1,0 +1,47 @@
+/* V0.8.1 — otimização mobile: menos filtros/animações, mesmos biomas */
+.v081-crop-fill{opacity:.72;pointer-events:none}
+.v081-terrain-layer use{shape-rendering:crispEdges}
+.v081-wave{opacity:.075}
+
+/* Seleção continua clara sem blur/filtro GPU. */
+.territory-border.selected{
+  stroke:#fff0a0;
+  stroke-width:3.2;
+  opacity:1;
+  filter:none;
+}
+.territory-border.valid-target{
+  animation:none;
+  stroke-dasharray:5 5;
+}
+
+/* Drop-shadows em dezenas de elementos pesam no SVG móvel. */
+.troop-badge,
+.terrain-sprite,
+.sprite-hq,
+.sprite-city,
+.sprite-port,
+.sprite-forest,
+.sprite-farm,
+.sprite-rock,
+.sprite-snow{
+  filter:none!important;
+}
+.hq-star{
+  paint-order:stroke;
+  stroke:#19130d;
+  stroke-width:2px;
+}
+
+/* Infraestrutura simples e contínua, sem efeitos extras. */
+.world-road-shadow{opacity:.28;stroke-width:5}
+.world-road{opacity:.7;stroke-width:3}
+.world-rail-bed{opacity:.5;stroke-width:4}
+.world-rail{opacity:.8}
+
+@media(max-width:480px){
+  .coast-foam{opacity:.58;stroke-dasharray:5 7}
+  .wave{opacity:.07}
+  .sea-rock{opacity:.68}
+  .frontline{opacity:.4}
+}
