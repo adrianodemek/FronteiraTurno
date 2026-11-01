@@ -3,11 +3,11 @@ import { canSelectSource, canTarget } from './game/map.js';
 import { resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
 import { LANDMASSES } from './data/map.js';
-import { render } from './ui/render.js?v=0.5';
+import { render } from './ui/render.js?v=0.5.2';
 
 let state=createInitialState();
 let aiTimer=0,resizeRaf=0;
-const refs={map:document.querySelector('#battleMap'),mapFrame:document.querySelector('#mapFrame'),zoomInBtn:document.querySelector('#zoomInBtn'),zoomOutBtn:document.querySelector('#zoomOutBtn'),zoomLabel:document.querySelector('#zoomLabel'),hudTop:document.querySelector('#hudTop'),objectiveStrip:document.querySelector('#objectiveStrip'),bottomDock:document.querySelector('#bottomDock'),turnLabel:document.querySelector('#turnLabel'),blueScore:document.querySelector('#blueScore'),redScore:document.querySelector('#redScore'),warBlue:document.querySelector('#warBlue'),orders:document.querySelector('#orders'),ownedCount:document.querySelector('#ownedCount'),neutralCount:document.querySelector('#neutralCount'),hqCount:document.querySelector('#hqCount'),actionPanel:document.querySelector('#actionPanel'),actionTitle:document.querySelector('#actionTitle'),actionText:document.querySelector('#actionText'),chanceBox:document.querySelector('#chanceBox'),chanceText:document.querySelector('#chanceText'),attackBtn:document.querySelector('#attackBtn'),endTurnBtn:document.querySelector('#endTurnBtn'),reinforceCard:document.querySelector('#reinforceCard'),toast:document.querySelector('#toast')};
+const refs={map:document.querySelector('#battleMap'),mapFrame:document.querySelector('#mapFrame'),hudTop:document.querySelector('#hudTop'),objectiveStrip:document.querySelector('#objectiveStrip'),bottomDock:document.querySelector('#bottomDock'),turnLabel:document.querySelector('#turnLabel'),blueScore:document.querySelector('#blueScore'),redScore:document.querySelector('#redScore'),warBlue:document.querySelector('#warBlue'),orders:document.querySelector('#orders'),ownedCount:document.querySelector('#ownedCount'),neutralCount:document.querySelector('#neutralCount'),hqCount:document.querySelector('#hqCount'),actionPanel:document.querySelector('#actionPanel'),actionTitle:document.querySelector('#actionTitle'),actionText:document.querySelector('#actionText'),chanceBox:document.querySelector('#chanceBox'),chanceText:document.querySelector('#chanceText'),attackBtn:document.querySelector('#attackBtn'),endTurnBtn:document.querySelector('#endTurnBtn'),reinforceCard:document.querySelector('#reinforceCard'),toast:document.querySelector('#toast')};
 
 const MIN_ZOOM=1,MAX_ZOOM=3,MAP_MARGIN=24,PAN_SEA=105;
 const pointers=new Map();
@@ -24,13 +24,13 @@ const contentBounds=getContentBounds();
 
 function safePadding(){
   const frame=refs.mapFrame.getBoundingClientRect();
-  if(!frame.width||!frame.height)return{left:18,right:62,top:92,bottom:178};
+  if(!frame.width||!frame.height)return{left:18,right:18,top:92,bottom:178};
   const hud=refs.hudTop.getBoundingClientRect();
   const action=refs.actionPanel.getBoundingClientRect();
   const dock=refs.bottomDock.getBoundingClientRect();
   return{
     left:18,
-    right:62,
+    right:18,
     top:Math.max(18,hud.bottom-frame.top+10),
     bottom:Math.max(18,frame.bottom-Math.min(action.top,dock.top)+10)
   };
@@ -60,15 +60,12 @@ function clampCamera(){
   camera.y=axisClamp(camera.y,h,contentBounds.minY-PAN_SEA,contentBounds.maxY+PAN_SEA);
 }
 function setCamera(zoom,x,y){camera.zoom=clamp(zoom,MIN_ZOOM,MAX_ZOOM);camera.x=x;camera.y=y;clampCamera();applyCamera();}
-function applyCamera(){const w=fit.w/camera.zoom,h=fit.h/camera.zoom;refs.map.setAttribute('viewBox',`${camera.x.toFixed(2)} ${camera.y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}`);refs.zoomLabel.value=`${Math.round(camera.zoom*100)}%`;refs.zoomLabel.textContent=refs.zoomLabel.value;refs.zoomOutBtn.disabled=camera.zoom<=MIN_ZOOM+.001;refs.zoomInBtn.disabled=camera.zoom>=MAX_ZOOM-.001;}
-function zoomBy(factor,nx=.5,ny=.5){const oldW=fit.w/camera.zoom,oldH=fit.h/camera.zoom,anchorX=camera.x+nx*oldW,anchorY=camera.y+ny*oldH,newZoom=clamp(camera.zoom*factor,MIN_ZOOM,MAX_ZOOM),newW=fit.w/newZoom,newH=fit.h/newZoom;setCamera(newZoom,anchorX-nx*newW,anchorY-ny*newH);}
+function applyCamera(){const w=fit.w/camera.zoom,h=fit.h/camera.zoom;refs.map.setAttribute('viewBox',`${camera.x.toFixed(2)} ${camera.y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)}`);}
 function localNorm(clientX,clientY){const r=refs.map.getBoundingClientRect();return{nx:clamp((clientX-r.left)/r.width,0,1),ny:clamp((clientY-r.top)/r.height,0,1)};}
 function twoPointers(){return[...pointers.values()].slice(0,2);}
 function beginGesture(){if(pointers.size<2)return;const[a,b]=twoPointers(),mx=(a.x+b.x)/2,my=(a.y+b.y)/2,{nx,ny}=localNorm(mx,my),w=fit.w/camera.zoom,h=fit.h/camera.zoom;gesture={startDistance:Math.hypot(b.x-a.x,b.y-a.y)||1,startZoom:camera.zoom,anchorX:camera.x+nx*w,anchorY:camera.y+ny*h};suppressClickUntil=Date.now()+420;refs.map.classList.add('pinching');}
 function updateGesture(){if(!gesture||pointers.size<2)return;const[a,b]=twoPointers(),distance=Math.hypot(b.x-a.x,b.y-a.y)||1,newZoom=clamp(gesture.startZoom*(distance/gesture.startDistance),MIN_ZOOM,MAX_ZOOM),mx=(a.x+b.x)/2,my=(a.y+b.y)/2,{nx,ny}=localNorm(mx,my),w=fit.w/newZoom,h=fit.h/newZoom;setCamera(newZoom,gesture.anchorX-nx*w,gesture.anchorY-ny*h);}
 
-refs.zoomInBtn.addEventListener('click',()=>zoomBy(1.25));
-refs.zoomOutBtn.addEventListener('click',()=>zoomBy(1/1.25));
 refs.map.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});try{refs.map.setPointerCapture(e.pointerId);}catch{}if(pointers.size===2)beginGesture();});
 refs.map.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pointers.size>=2){e.preventDefault();if(!gesture)beginGesture();updateGesture();}});
 function endPointer(e){if(pointers.has(e.pointerId))pointers.delete(e.pointerId);if(pointers.size<2&&gesture){gesture=null;suppressClickUntil=Date.now()+360;refs.map.classList.remove('pinching');}}
@@ -91,5 +88,5 @@ document.addEventListener('visibilitychange',syncVisibility,{passive:true});
 window.addEventListener('pagehide',e=>{document.documentElement.classList.add('app-paused');clearTimeout(showToast.t);if(!e.persisted){clearTimeout(aiTimer);pointers.clear();gesture=null;ro.disconnect();refs.map.replaceChildren();}},{passive:true});
 window.addEventListener('pageshow',()=>{syncVisibility();paint();recalcFit(true);},{passive:true});
 
-window.__cameraDebug={camera,fit,recalcFit,setCamera,zoomBy,contentBounds};
+window.__cameraDebug={camera,fit,recalcFit,setCamera,contentBounds};
 syncVisibility();render(state,refs);recalcFit(false);
