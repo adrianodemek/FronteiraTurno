@@ -1,0 +1,7 @@
+---
+layout: null
+---
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 690" width="420" height="690" preserveAspectRatio="xMidYMid meet">
+  <rect width="420" height="690" fill="#063140"/>
+  <image x="0" y="0" width="420" height="690" preserveAspectRatio="none" href="data:image/webp;base64,{% include_relative v091/chunk00.txt %}{% include_relative v091/chunk01.txt %}{% include_relative v091/chunk02.txt %}{% include_relative v091/chunk03.txt %}{% include_relative v091/chunk04.txt %}{% include_relative v091/chunk05.txt %}{% include_relative v091/chunk06.txt %}{% include_relative v091/chunk07.txt %}"/>
+</svg>
