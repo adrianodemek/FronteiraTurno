@@ -1,9 +1,9 @@
-import { createInitialState, territoryById, owned } from './game/state.js?v=0.9';
+import { createInitialState, territoryById, owned } from './game/state.js?v=0.9.1';
 import { canSelectSource, canTarget, isNeighbor } from './game/map.js';
 import { attackChance, maxAttackTroops, resolveAttack } from './game/combat.js';
 import { runAiTurn } from './game/ai.js';
-import { LANDMASSES } from './data/map.js?v=0.9';
-import { render } from './ui/render.js?v=0.9';
+import { LANDMASSES } from './data/map.js?v=0.9.1';
+import { render } from './ui/render.js?v=0.9.1';
 
 let state=createInitialState();
 let aiTimer=0,resizeRaf=0;
