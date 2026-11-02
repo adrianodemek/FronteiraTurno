@@ -1,7 +1,7 @@
-import { render as render091 } from './render-v091.js?v=0.9.2';
+import { render as render091 } from './render-v091.js?v=0.9.3';
 
 const NS='http://www.w3.org/2000/svg';
-const MAP_HREF='./assets/map/static/map-v092.svg?v=0.9.2';
+const MAP_HREF='./assets/map/static/map-v093.webp?v=0.9.3';
 
 function ensureStableMap(refs){
   const layer=refs.map.querySelector('.v091-static-layer');
