@@ -1,0 +1,29 @@
+/* V0.9.1 — mapa premium raster único + overlays jogáveis */
+.v091-static-map{pointer-events:none;image-rendering:auto}
+.v091-owner-tint{pointer-events:none}
+.v091-border{
+  stroke-width:1.35;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+  opacity:.78;
+}
+.v091-border.selected{
+  stroke:#fff1a3;
+  stroke-width:3.2;
+  opacity:1;
+  filter:none;
+}
+.v091-border.valid-target{
+  stroke-dasharray:5 5;
+  stroke-width:2.1;
+  opacity:.95;
+  animation:none;
+}
+.v091-static-layer,.v091-environment,.v091-interaction-layer,.v091-border-layer,.v091-frontline-layer,.v091-action-layer,.v091-badge-layer{filter:none}
+.v091-environment{display:none}
+.v091-badge-layer .troop-badge{filter:none!important}
+.v091-badge-layer .hq-star{paint-order:stroke;stroke:#19130d;stroke-width:2px}
+@media(max-width:480px){
+  .v091-border{stroke-width:1.15}
+  .v091-border.selected{stroke-width:3}
+}
