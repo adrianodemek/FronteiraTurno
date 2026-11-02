@@ -1,0 +1,4 @@
+/* V0.9.2 — mapa-base único e estável */
+.v091-static-map{display:none!important}
+.v092-static-map{pointer-events:none;image-rendering:auto}
+.v091-environment{display:none!important}
