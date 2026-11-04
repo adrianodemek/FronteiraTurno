@@ -1,3 +1,4 @@
+import { REGION_CENTERS } from './reference-geometry.js?v=1.0.0';
 export const LANDMASSES = [
   {
     id:'central',
@@ -36,7 +37,7 @@ export const TERRITORY_TEMPLATE = [
   { id:'F3', x:321, y:513, terrain:'port', owner:'neutral', troops:2, landmass:'central' },
   { id:'G1', x:152, y:602, terrain:'plains', owner:'neutral', troops:1, landmass:'central' },
   { id:'G2', x:267, y:588, terrain:'city', owner:'red', troops:12, hq:true, landmass:'central' }
-];
+].map(t=>({...t,x:REGION_CENTERS[t.id][0],y:REGION_CENTERS[t.id][1]}));
 
 export const NEIGHBORS = {
   A1:['A2','B1','B2'], A2:['A1','B2','B3'],

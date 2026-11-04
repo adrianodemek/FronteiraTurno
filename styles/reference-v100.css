@@ -1,0 +1,45 @@
+/* FronteiraTurno V1.0.0 — referência visual aprovada, respeitando a área mobile. */
+.game-shell{background:#051d31}
+.battlefield-panel,.map-frame,.map-frame svg{background:#07283c}
+.v100-static-layer,.v100-static-map{pointer-events:none}
+.v100-static-map{image-rendering:auto}
+.v100-interaction-layer .v09-hit-shape{pointer-events:all;cursor:pointer}
+.v100-owner-tint{pointer-events:none;opacity:1!important;mix-blend-mode:multiply}
+.v100-border{
+  fill:none;stroke-width:1.4;opacity:.07;
+  vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round;
+}
+.v100-border.captured{opacity:.94;stroke-width:3.1;paint-order:stroke}
+.v100-border.selected{stroke:#ffe9a6!important;stroke-width:4;opacity:1}
+.v100-border.valid-target:not(.selected){stroke:#ffe9a6;stroke-width:2.8;opacity:.95;stroke-dasharray:6 4;animation:none}
+.v100-badge-layer .troop-badge{stroke:#081015;stroke-width:2;filter:none}
+.v100-badge-layer .troop-text{fill:#f8f6ee;font-weight:900;paint-order:stroke;stroke:#0a1519;stroke-width:1.1}
+/* A arte já traz QGs pintados; o único elemento dinâmico sobre eles é a tropa. */
+.v100-badge-layer .hq-star{display:none}
+.v100-frontline-layer{display:none}
+.v091-environment{display:none!important}
+.hud-top{top:max(3px,env(safe-area-inset-top));padding:3px 4px 5px;left:5px;right:5px}
+.turn-card span{font-size:10px;letter-spacing:1.5px}
+.turn-card strong{font-size:31px}
+.war-meter{padding-top:3px!important}
+.war-bar{height:12px}
+.orders-wrap{margin-top:5px}
+.orders i{height:7px;width:27px}
+.objective-strip{top:90px;left:13px;gap:4px}
+.objective-strip>div>b{font-size:14px}
+.bottom-dock{bottom:max(10px,env(safe-area-inset-bottom));gap:10px}
+.card{height:101px;width:76px;margin-right:-13px;box-shadow:0 4px 0 #03111a}
+.card .art{height:46px;font-size:30px}
+.card strong{font-size:9px}
+.card small{font-size:7px}
+.end-turn{min-height:80px;border-radius:12px;background:linear-gradient(#ffd779,#efb448 55%,#d8912f);font-size:19px;box-shadow:inset 0 0 0 3px #ffe6a4,0 6px 0 #4b2d13}
+.action-panel{bottom:119px;left:13px;right:13px}
+.gesture-hint{bottom:185px;opacity:.52}
+@media(max-width:360px){
+  .turn-card strong{font-size:26px}
+  .objective-strip{top:83px}
+  .card{width:67px;height:91px;margin-right:-14px}
+  .end-turn{min-height:71px;font-size:17px}
+  .action-panel{bottom:107px}
+}
+@media(prefers-reduced-motion:reduce){.v100-border{animation:none}}
