@@ -1,0 +1,30 @@
+name: Gerar peças modulares do mapa
+on:
+  push:
+    branches: [main]
+    paths:
+      - tools/build_pilot_tiles.py
+      - .github/workflows/build-map-pilot.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  render-terrain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install Pillow
+      - name: Extrair territórios da arte estática
+        run: python tools/build_pilot_tiles.py
+      - name: Publicar os novos WebPs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/mapas/ilha-01/
+          if ! git diff --cached --quiet; then
+            git commit -m 'assets: gerar pilotos A1 B1 C1 e fundo independente'
+            git push origin HEAD:main
+          fi

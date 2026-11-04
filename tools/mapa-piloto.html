@@ -1,0 +1,33 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ilha 01 — Inspeção dos territórios</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#071c2d;color:#f7e2b6;font:14px system-ui,sans-serif;display:grid;justify-items:center;padding:12px;gap:12px}
+header,section{width:min(100%,420px)}h1{font-size:19px;margin:0 0 6px}p{margin:0;font-size:13px;line-height:1.45;color:#c7d7de}
+svg{display:block;width:min(calc(100vw - 24px),420px);height:auto;background:#061c31;border:1px solid #47788a;border-radius:8px}
+.controls{display:flex;gap:7px;flex-wrap:wrap}.controls label{padding:9px 7px;flex:1;min-width:110px;background:#233b4e;border:1px solid #587789;border-radius:8px;cursor:pointer}
+input{accent-color:#efbd50}.note{font-size:12px;color:#aec6d0}a{color:#ffd26b}
+</style></head><body>
+<header><h1>Mapa modular — A1, B1, C1</h1><p>Desmarque uma região para ver seu espaço vazio. Cada peça é uma imagem própria, separada da jogabilidade e das demais regiões.</p></header>
+<svg id="scene" viewBox="0 0 420 596" aria-label="Inspeção do mapa ilustrado"></svg>
+<section><div id="controls" class="controls"></div><p class="note" id="status">Carregando mapa…</p><p><a href="../?v=110">Voltar ao jogo V1.1.0</a></p></section>
+<script type="module">
+const root=new URL('../',location.href),ns='http://www.w3.org/2000/svg';
+const full=p=>new URL(p,root).href;
+function img(href,x,y,w,h){const n=document.createElementNS(ns,'image');
+for(const[k,v]of Object.entries({href,x,y,width:w,height:h,preserveAspectRatio:'none'}))n.setAttribute(k,v);return n;}
+try{
+ const response=await fetch(full('assets/mapas/ilha-01/manifest.json?v=1.1.0'));
+ if(!response.ok)throw new Error('Manifesto não disponível');
+ const data=await response.json(),view=data.viewport,scene=document.querySelector('#scene');
+ scene.append(img(full(data.base),0,0,view.width,view.height));
+ for(const r of data.regions){
+  const b=r.box,n=img(full(r.asset),b.x,b.y,b.width,b.height);scene.append(n);
+  const label=document.createElement('label'),check=document.createElement('input');check.type='checkbox';check.checked=true;
+  check.addEventListener('change',()=>{n.style.display=check.checked?'':'none';
+   document.querySelector('#status').textContent=r.id+' — '+(check.checked?'peça visível':'peça isolada')});
+  label.append(check,document.createTextNode(' '+r.id+' · '+r.biome));document.querySelector('#controls').append(label);
+ }
+ document.querySelector('#status').textContent='Ligue e desligue cada região para conferir os encaixes.';
+}catch(e){document.querySelector('#status').textContent='Falha: '+e.message}
+</script></body></html>
