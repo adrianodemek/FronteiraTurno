@@ -1,0 +1,143 @@
+{
+  "format": "fronteiraturno-territory-atlas-v1",
+  "mapId": "ilha-01",
+  "referenceVersion": "V1.0.0",
+  "viewport": {
+    "width": 420,
+    "height": 596,
+    "offsetX": 0,
+    "offsetY": 26
+  },
+  "base": "assets/mapas/ilha-01/oceano-e-terreno.webp",
+  "regions": [
+    {
+      "id": "A1",
+      "label": "Quartel-general azul",
+      "biome": "qg",
+      "asset": "assets/mapas/ilha-01/territorios/A1-qg.webp",
+      "box": {
+        "x": 91,
+        "y": 10,
+        "width": 131,
+        "height": 123
+      },
+      "polygon": [
+        [
+          130.33,
+          22.31
+        ],
+        [
+          169.61,
+          12.49
+        ],
+        [
+          218.7,
+          21.41
+        ],
+        [
+          218.7,
+          100.82
+        ],
+        [
+          148.63,
+          130.71
+        ],
+        [
+          108.01,
+          106.62
+        ],
+        [
+          93.73,
+          82.98
+        ],
+        [
+          108.01,
+          53.53
+        ]
+      ],
+      "initialOwner": "blue"
+    },
+    {
+      "id": "B1",
+      "label": "Zona agrícola",
+      "biome": "farm",
+      "asset": "assets/mapas/ilha-01/territorios/B1-fazenda.webp",
+      "box": {
+        "x": 31,
+        "y": 104,
+        "width": 122,
+        "height": 99
+      },
+      "polygon": [
+        [
+          108.01,
+          106.62
+        ],
+        [
+          148.63,
+          130.71
+        ],
+        [
+          149.97,
+          164.61
+        ],
+        [
+          104.0,
+          200.3
+        ],
+        [
+          33.92,
+          182.46
+        ],
+        [
+          43.74,
+          136.51
+        ],
+        [
+          73.2,
+          115.1
+        ]
+      ],
+      "initialOwner": "neutral"
+    },
+    {
+      "id": "C1",
+      "label": "Floresta densa",
+      "biome": "forest",
+      "asset": "assets/mapas/ilha-01/territorios/C1-floresta.webp",
+      "box": {
+        "x": 14,
+        "y": 180,
+        "width": 93,
+        "height": 122
+      },
+      "polygon": [
+        [
+          33.92,
+          182.46
+        ],
+        [
+          104.0,
+          200.3
+        ],
+        [
+          102.66,
+          263.65
+        ],
+        [
+          33.92,
+          299.34
+        ],
+        [
+          21.87,
+          267.66
+        ],
+        [
+          16.96,
+          232.87
+        ]
+      ],
+      "initialOwner": "neutral"
+    }
+  ]
+}
