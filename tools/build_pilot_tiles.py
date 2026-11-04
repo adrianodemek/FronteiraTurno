@@ -23,6 +23,9 @@ def build(source_path):
             (WIDTH, HEIGHT), Image.Resampling.LANCZOS)
     elif source.size == (WIDTH, HEIGHT):
         canvas = source.copy()
+    elif source.size == (840, 1193):
+        # Arte publicada em 2x (relação 840×1193), convertida ao canvas lógico.
+        canvas = source.resize((WIDTH, HEIGHT), Image.Resampling.LANCZOS)
     else:
         raise ValueError(f"Dimensões inesperadas da referência: {source.size}")
     geometry = (ROOT / "src/data/reference-geometry.js").read_text(encoding="utf-8")
